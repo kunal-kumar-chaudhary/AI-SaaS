@@ -6,6 +6,7 @@ import { uploadToS3 } from "@/lib/s3";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 interface File {
     file_key: string;
@@ -13,6 +14,7 @@ interface File {
 }
 
 const FileUpload = () => {
+    const router = useRouter();
     const [Loading, setLoading] = useState<boolean>(false);
     // mutation is a function that allows us to hit backend api
     const { mutate, isPending } = useMutation({
@@ -44,12 +46,13 @@ const FileUpload = () => {
                     return;
                 }
                 mutate(data, {
-                    onSuccess: (data) => {
-                        console.log(data);
-                        
+                    onSuccess: ({ chat_id }) => {
+                        toast.success("Chat created successfully");
+                        router.push(`/chat/${chat_id}`);
                     },
                     onError: (error) => {
                         toast.error("error creating chat");
+                        console.log(error);
                     },
                 });
             } catch (e) {

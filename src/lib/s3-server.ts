@@ -2,7 +2,7 @@ import AWS from "aws-sdk";
 import fs from "fs";
 
 // this function will download data from AWS s3 and write it to a local file
-export async function downladFromS3(file_key: string){
+export async function downloadFromS3(file_key: string){
         try{
                 AWS.config.update({
                     accessKeyId: process.env.NEXT_PUBLIC_S3_ACCESS_KEY_ID,
